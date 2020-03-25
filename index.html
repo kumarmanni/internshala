@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Google Search Clone</title>
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css">
+
+</head>
+<style type="text/css">
+	.btn {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+.form-group{
+	padding-top: 55px;
+}
+</style>
+<body>
+	<div class="container">
+		<form id="form" autocomplete="off">
+			<div class="form-group">
+				<input type="text" id="search" class="form-control" placeholder="search">
+			</div>
+			<div class="form-group">
+				<button class="btn" type="submit">Search</button>
+			</div>
+		</form>
+		<div id="result"></div>
+	</div>
+
+</body>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+<script>
+	$("#form").submit(function(e){
+		e.preventDefault()
+
+		var query = $("#search").val()
+		let result = ''
+		var API_KEY = '9911a2e814d703542638135a01f47299'
+
+		var url = 'http://api.serpstack.com/search?access_key=' + API_KEY + '&type=web&query=' + query
+		console.log(url)
+
+		$.get(url, function (data){
+			$("#result").html('')
+			console.log(data)
+
+			data.organic_results.forEach( res =>{
+
+				result = `
+				<h4>${res.title}</h4><br>
+				<a href="{$res.url}">${res.url}</a>
+				<p>${res.snippet}</p>
+
+				`
+				$("#result").append(result)
+
+			}); 
+		})
+}) 
+</script>
+</html>
